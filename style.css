@@ -113,8 +113,6 @@ a:hover {
 }
 .menu-links a {
   display: block;
-  border: 1px solid black;
-  border-radius: 20%;
   padding: 10px;
   text-align: center;
   font-size: 1.5rem;
@@ -128,6 +126,7 @@ a:hover {
 }
 .menu-links.open {
   max-height: 300px;
+  
 }
 .hamburger-icon.open span:first-child {
   transform: rotate(45deg) translate(10px, 5px);
@@ -337,6 +336,7 @@ article .icon{
 
 /*Projects section */
 #projects{
+  margin-top: 4dvh;
   position:relative;
 }
 
