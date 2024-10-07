@@ -193,6 +193,8 @@ section-container {
 #animated-text {
   text-align: center;
   font-size: 1.75rem;
+  padding: 0 0;
+  margin-right: 0%;
   margin-bottom: 1rem;
   display: inline-block;
   border-right: 2px solid black;

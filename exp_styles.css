@@ -16,11 +16,12 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 30px 100px;
+    padding: 10px 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
+    background-color: rgb(0, 0, 0, 0.5);
 }
 
 #logo {
@@ -54,7 +55,7 @@ a.active {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('images/background.jpg') no-repeat;
+    background: url('exp_image/background.jpg') no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
