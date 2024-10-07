@@ -14,6 +14,8 @@ function navigateTo(page) {
   }
 }
 
+
+document.addEventListener("DOMContentLoaded",()=>{
 //animating the paragraph about what i do
 const roles = [
   "Frontend Developer",
@@ -21,18 +23,24 @@ const roles = [
   "Fullstack Developer",
   "Software Engineer",
 ];
-let currentRoleIndex = 0;
-const textElement = document.getElementById("animated-text");
 
+let currentRoleIndex = 0;
+const textElement = document.getElementById('animated-text');
+//print the value of textElement
+console.log(textElement);
 function typeRole(role) {
   if (textElement) {
     textElement.textContent = role;
+    textElement.style.width = `${role.length}ch`;
     textElement.style.animation = `typing 3s steps(${role.length}), blink-caret .75s step-end infinite`;
   }
 }
 function deleteRole(role) {
   if (textElement) {
     textElement.style.animation = `deleting 3s steps(${role.length}), blink-caret .75s step-end infinite`;
+    setTimeout(() => {
+      textElement.textContent = "";
+    }, 3000);
   }
 }
 function cycleRoles() {
@@ -46,6 +54,8 @@ function cycleRoles() {
   }, 3000);
 }
 cycleRoles();
+
+});
 
 // anime({
 //   targets: 'div',
