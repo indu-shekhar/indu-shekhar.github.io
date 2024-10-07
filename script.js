@@ -22,20 +22,19 @@ const roles = [
   "Software Engineer",
 ];
 let currentRoleIndex = 0;
-const textElement = document.getElementById("animated-text");
+const textElement = document.getElementById('animated-text');
 
 function typeRole(role) {
-  textElement.style.animation = `typing 3s steps(${role.length}), blink-caret .75s step-end infinite`;
   textElement.textContent = role;
+  textElement.style.animation = `typing 3s steps(${role.length}), blink-caret .75s step-end infinite`;
 }
-function deleteRole() {
-  textElement.style.animation = `deleting 3s steps(${textElement.textContent.length}), blink-caret .75s step-end infinite`;
-  textElement.textContent = "";
+function deleteRole(role) {
+  textElement.style.animation = `deleting 3s steps(${role.length}), blink-caret .75s step-end infinite`;
 }
 function cycleRoles() {
   typeRole(roles[currentRoleIndex]);
   setTimeout(() => {
-    deleteRole();
+    deleteRole(roles[currentRoleIndex]);
     setTimeout(() => {
       currentRoleIndex = (currentRoleIndex + 1) % roles.length;
       cycleRoles();
