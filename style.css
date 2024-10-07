@@ -184,7 +184,7 @@ section-container {
   text-align: center;
   font-weight: 600;
 }
-.section__text__p2 {
+#animated-text {
   text-align: center;
   font-size: 1.75rem;
   margin-bottom: 1rem;
@@ -193,6 +193,8 @@ section-container {
   white-space: nowrap;
   overflow: hidden;
   font-family: monospace;
+  animation: cycleRoles 2s steps(30, end) infinite,
+    typing 2s steps(30, end) infinite;
 }
 @keyframes typing {
   from {
