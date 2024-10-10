@@ -4,13 +4,12 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
 }
 
 body {
     min-height: 100vh;
 }
-
 header {
     position: fixed;
     top: 0;
@@ -106,6 +105,16 @@ p {
     color: #fff;
     font-size: 1em;
     font-weight: 300
+}
+/* crousel section */
+/* adding a translucent overlay on the crousel images */
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    /* padding: 20px; */
+    border-radius: 30px;
+    border-width: 2rem;
+    border-color: rgb(0, 0, 0, 0.3);
+    margin-top: 50px;
 }
 
 @media (max-width: 768px) {
