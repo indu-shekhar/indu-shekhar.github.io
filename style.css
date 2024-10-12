@@ -67,8 +67,15 @@ a:hover {
 }
 
 .logo {
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: 600;
+
 }
+.logo img {
+  font-size: 5rem;
+  height: 5rem;
+  width: auto;
+} 
 
 .logo:hover {
   cursor: default;
