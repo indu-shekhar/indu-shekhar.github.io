@@ -46,6 +46,10 @@ nav {
   align-items: center;
   height: 10vh;
 }
+.heading{
+  display : flex;
+  align-items: center;
+}
 
 .nav-links {
   gap: 2rem;
