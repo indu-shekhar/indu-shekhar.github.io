@@ -3,7 +3,7 @@ body{
     background-color: rgb(20, 11,28);
 }
 .about-section {
-    padding: 60px 0;
+    padding-bottom: 5vw;
     background-image: url(assets/indu.svg);
     background-size: cover;
     background-position: center;
@@ -14,14 +14,31 @@ body{
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #333;
+    color: #d0d857;
 }
 
 .about-section p {
     font-size: 18px;
     line-height: 1.6;
-    color: #666;
+    color: #f3f064;
 }
+/* name styling */
+.name{
+    font-family: dancing script;
+    font-size: 6vw;
+    color:#f3f064
+}
+#second{
+    padding-left:6vw;
+}
+#third{
+    padding-left:15vw;
+}
+.hero{
+    padding-top: 3vw;
+    max-width: 90vw;
+}
+
 
 .about-section .btn {
     padding: 10px 20px;
@@ -36,4 +53,64 @@ body{
 
 .about-section .btn:hover {
     background-color: #0056b3;
+}
+
+/* TIMELINE SECTION */
+/* .timeline{
+    background-color: rgba(236,236,241,.44);
+} */
+.hori-timeline .events {
+    border-top: 3px solid #e9ecef;
+}
+.hori-timeline .events .event-list {
+    display: block;
+    position: relative;
+    text-align: center;
+    padding-top: 70px;
+    margin-right: 0;
+}
+.hori-timeline .events .event-list:before {
+    content: "";
+    position: absolute;
+    height: 36px;
+    border-right: 2px dashed #dee2e6;
+    top: 0;
+}
+.hori-timeline .events .event-list .event-date {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    right: 0;
+    width: 75px;
+    margin: 0 auto;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+@media (min-width: 1140px) {
+    .hori-timeline .events .event-list {
+        display: inline-block;
+        width: 24%;
+        padding-top: 45px;
+    }
+    .hori-timeline .events .event-list .event-date {
+        top: -12px;
+    }
+}
+.bg-soft-primary {
+    background-color: rgba(64,144,203,.3)!important;
+}
+.bg-soft-success {
+    background-color: rgba(71,189,154,.3)!important;
+}
+.bg-soft-danger {
+    background-color: rgba(231,76,94,.3)!important;
+}
+.bg-soft-warning {
+    background-color: rgba(249,213,112,.3)!important;
+}
+.card {
+    border: none;
+    margin-bottom: 24px;
+    -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+    box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
 }
