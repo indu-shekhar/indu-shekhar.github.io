@@ -1,98 +1,106 @@
 /* write the code for about section beautification for better  */
 
-body{
-    background-color: rgb(20, 11,28);
+body {
+  background-color: rgb(20, 11, 28);
 }
-nav{
-    box-shadow: 0 8px 10px rgba(192, 143, 237, 0.747);
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+nav {
+  box-shadow: 0 8px 10px rgba(192, 143, 237, 0.747);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .about-section {
-    padding-bottom: 5vw;
-    background-size: cover;
-    background-position: center;
-    height: 80vh;
-    background: linear-gradient(180deg, #0C0934 17.75%, #6E35AD 100%);
+  padding-bottom: 5vw;
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  background: linear-gradient(180deg, #0c0934 17.75%, #6e35ad 100%);
 }
 
 .about-section h2 {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #d0d857;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #d0d857;
 }
 
 .about-section p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #f3f064;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f3f064;
 }
 /* Social Icons Styling */
 .social-icons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .social-icons a {
-    color: #d0d857;
-    font-size: 3vw;
-    margin: 0 10px;
-    transition: color 0.3s;
-  }
-  
-  .social-icons a:hover {
-    color: #9352c4;
-  }
-  .about-img{
-    background: url(about-image/about_img.jpeg) no-repeat center;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 5px;
-  }
-    .about-image{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-blend-mode: luminosity;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-/* name styling */
-.name{
-    font-family: dancing script;
-    font-size: 6vw;
-    color:#f3f064
-}
-#second{
-    padding-left:6vw;
-}
-#third{
-    padding-left:15vw;
-}
-.hero{
-    padding-top: 3vw;
-    max-width: 90vw;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
+.social-icons a {
+  color: #d0d857;
+  font-size: 3vw;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #9352c4;
+}
+.about-bg-img {
+  background: url(about-image/about_img.jpeg) no-repeat center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  filter: blur(0);
+  position: absolute;
+  transition: filter 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.about-img:hover .about-bg-img {
+  filter: blur(3px);
+}
+
+.about-image {
+  filter: blur(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-blend-mode: luminosity;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* name styling */
+.name {
+  font-family: dancing script;
+  font-size: 6vw;
+  color: #f3f064;
+}
+#second {
+  padding-left: 6vw;
+}
+#third {
+  padding-left: 15vw;
+}
+.hero {
+  padding-top: 3vw;
+  max-width: 90vw;
+}
 
 .about-section .btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .about-section .btn:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 /* TIMELINE SECTION */
@@ -100,59 +108,67 @@ nav{
     background-color: rgba(236,236,241,.44);
 } */
 .hori-timeline .events {
-    border-top: 3px solid #e9ecef;
+  border-top: 3px solid #e9ecef;
 }
 .hori-timeline .events .event-list {
-    display: block;
-    position: relative;
-    text-align: center;
-    padding-top: 70px;
-    margin-right: 0;
+  display: block;
+  position: relative;
+  text-align: center;
+  padding-top: 70px;
+  margin-right: 0;
 }
 .hori-timeline .events .event-list:before {
-    content: "";
-    position: absolute;
-    height: 36px;
-    border-right: 2px dashed #dee2e6;
-    top: 0;
+  content: "";
+  position: absolute;
+  height: 36px;
+  border-right: 2px dashed #dee2e6;
+  top: 0;
 }
 .hori-timeline .events .event-list .event-date {
-    position: absolute;
-    top: 38px;
-    left: 0;
-    right: 0;
-    width: 75px;
-    margin: 0 auto;
-    border-radius: 4px;
-    padding: 2px 4px;
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  width: 75px;
+  margin: 0 auto;
+  border-radius: 4px;
+  padding: 2px 4px;
 }
 @media (min-width: 1140px) {
-    .hori-timeline .events .event-list {
-        display: inline-block;
-        width: 24%;
-        padding-top: 45px;
-    }
-    .hori-timeline .events .event-list .event-date {
-        top: -12px;
-    }
+  .hori-timeline .events .event-list {
+    display: inline-block;
+    width: 24%;
+    padding-top: 45px;
+  }
+  .hori-timeline .events .event-list .event-date {
+    top: -12px;
+  }
+}
+/* target aim section */
+.aim-target {
+  padding-bottom: 5vw;
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+  background: linear-gradient(180deg, #0c0934 17.75%, #6e35ad 100%);
 }
 .bg-soft-primary {
-    background-color: rgba(64,144,203,.3)!important;
+  background-color: rgba(64, 144, 203, 0.3) !important;
 }
 .bg-soft-success {
-    background-color: rgba(71,189,154,.3)!important;
+  background-color: rgba(71, 189, 154, 0.3) !important;
 }
 .bg-soft-danger {
-    background-color: rgba(231,76,94,.3)!important;
+  background-color: rgba(231, 76, 94, 0.3) !important;
 }
 .bg-soft-warning {
-    background-color: rgba(249,213,112,.3)!important;
+  background-color: rgba(249, 213, 112, 0.3) !important;
 }
 .card {
-    border: none;
-    margin-bottom: 24px;
-    -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
-    box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+  border: none;
+  margin-bottom: 24px;
+  -webkit-box-shadow: 0 0 13px 0 rgba(236, 236, 241, 0.44);
+  box-shadow: 0 0 13px 0 rgba(236, 236, 241, 0.44);
 }
 
 /* social median section  */
