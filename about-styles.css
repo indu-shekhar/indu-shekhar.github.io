@@ -1,13 +1,19 @@
 /* write the code for about section beautification for better  */
+
 body{
     background-color: rgb(20, 11,28);
 }
+nav{
+    box-shadow: 0 8px 10px rgba(192, 143, 237, 0.747);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 .about-section {
     padding-bottom: 5vw;
-    background-image: url(assets/indu.svg);
     background-size: cover;
     background-position: center;
     height: 80vh;
+    background: linear-gradient(180deg, #0C0934 17.75%, #6E35AD 100%);
 }
 
 .about-section h2 {
@@ -22,6 +28,40 @@ body{
     line-height: 1.6;
     color: #f3f064;
 }
+/* Social Icons Styling */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .social-icons a {
+    color: #d0d857;
+    font-size: 3vw;
+    margin: 0 10px;
+    transition: color 0.3s;
+  }
+  
+  .social-icons a:hover {
+    color: #9352c4;
+  }
+  .about-img{
+    background: url(about-image/about_img.jpeg) no-repeat center;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+  }
+    .about-image{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-blend-mode: luminosity;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 /* name styling */
 .name{
     font-family: dancing script;
@@ -114,3 +154,5 @@ body{
     -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
     box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
 }
+
+/* social median section  */
