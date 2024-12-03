@@ -134,6 +134,30 @@ nav {
   border-radius: 4px;
   padding: 2px 4px;
 }
+/* Add to about-styles.css */
+.btn-gradient {
+  background: linear-gradient(45deg, #2937f0, #9f1ae2);
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(45deg, #9f1ae2, #2937f0);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  color: white;
+}
+
+.btn-gradient:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 55, 240, 0.3);
+}
 @media (min-width: 1140px) {
   .hori-timeline .events .event-list {
     display: inline-block;
@@ -200,6 +224,23 @@ nav {
 .img-fluid{
   border-radius: 40%;
 }
+
+.what_head{
+  color: #f3f064;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-family: dancing script;
+}
+.what_text{
+  color: rgb(255,255,255);
+  font-family: dancing script;
+  font-size:2rem;
+}
+
+
+
+/* social media section */
 .card {
   border: none;
   margin-bottom: 24px;
