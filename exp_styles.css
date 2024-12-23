@@ -135,107 +135,7 @@ p {
     min-width: 100%;
   }
 
-/* wheel chair section */
-/* #voice-controlled-wheelchair {
-    background-color: #020b14;
-    color: #020d17;
-}
-
-#voice-controlled-wheelchair h1, 
-#voice-controlled-wheelchair h2, 
-#voice-controlled-wheelchair h3 {
-    color: #007bff;
-}
-#intro-wheelchair {
-    background-color:rgba(45, 205, 219, 0.371);
-    color: #fff;
-}
-#voice-controlled-wheelchair p {
-    color: #6c757d;
-}
-
-#voice-controlled-wheelchair .card {
-    border: none;
-    box-shadow: 0 0 10px rgba(234, 230, 230, 0.53);
-}
-
-#voice-controlled-wheelchair .card-title {
-    color: #007bff;
-}
-
-#voice-controlled-wheelchair .img-fluid {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-} */
-/* #voice-controlled-wheelchair,
-#tini-militia-game {
-    background-color: #040d166d;
-    color: #343a40;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-#voice-controlled-wheelchair h1,
-#voice-controlled-wheelchair h2,
-#voice-controlled-wheelchair h3,
-#tini-militia-game h1,
-#tini-militia-game h2,
-#tini-militia-game h3 {
-    color: #007bff;
-}
-
-#voice-controlled-wheelchair p,
-#tini-militia-game p {
-    color: #6c757d;
-}
-
-#voice-controlled-wheelchair .card,
-#tini-militia-game .card {
-    border: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#voice-controlled-wheelchair .card-title,
-#tini-militia-game .card-title {
-    color: #007bff;
-}
-
-#voice-controlled-wheelchair .img-fluid,
-#tini-militia-game .img-fluid {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-}
-
-#tini-militia-game ul {
-    padding-left: 20px;
-}
-
-#tini-militia-game ul li {
-    margin-bottom: 10px;
-}
-
-#tini-militia-game .card-body ul {
-    padding-left: 0;
-}
-
-#tini-militia-game .card-body ul li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-#tini-militia-game .card-body ul li::before {
-    content: "•";
-    color: #007bff;
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
-} */
+/* voice controlled wheelchair */
 #voice-controlled-wheelchair,
 #tini-militia-game {
     background-color: #1a1a1a; /* Dark background */
@@ -347,6 +247,11 @@ p {
   #heading {
     font-size: 3em;
   }
+  .carousel{
+    width:auto;
+    height: auto;
+    aspect-ratio: auto;
+  }
 
   .parallax img#moon {
     width: 180px;
@@ -362,7 +267,7 @@ p {
 
   section {
     margin-top: -60px;
-    padding: 30px 50px;
+    padding: 30px 10px;
   }
 
   section h2 {
@@ -386,7 +291,10 @@ p {
   #heading {
     font-size: 3em;
   }
+  .parallax{
+    height: 30vh;
 
+  }
   .parallax img#moon {
     width: 180px;
     top: 65%;
