@@ -12,7 +12,7 @@ nav {
   padding-bottom: 5vw;
   background-size: cover;
   background-position: center;
-  height: 80vh;
+  height:fit-content;
   background: linear-gradient(180deg, #0c0934 17.75%, #6e35ad 100%);
 }
 
@@ -303,4 +303,44 @@ nav {
 /* footer */
 .footer{
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .about-section{
+    height: 80vh;
+  }
+  #line{
+    display: none;
+  }
+  .about-bg-img {
+    display: none;
+  }
+  .aim-target{
+    display:inline-table;
+  }
+  .social-media{
+    display: inline-table;
+  }
+  .col-lg-6{
+    display:contents;
+    flex-wrap: wrap;
+  }
+  .about-image{
+    display:block;
+    margin-top:2rem;
+    width: 100%;
+    overflow: hidden;
+  }
+  .about-content{
+    justify-content: center;
+    align-items: center;
+    font-weight: auto;
+  }
+  #second {
+    padding-left: auto;
+  }
+  #third {
+    padding-left: auto;
+  }
+
 }

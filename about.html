@@ -28,35 +28,30 @@
   </head>
 
   <body>
-    <!-- section to implement the navbar for the about section using the bootstrap -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Indu Shekhar Jha</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <!-- <span class="navbar-toggler-icon"></span> -->
-      </button>
-      <!-- div to implement the navbar links using the bootstrap -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white position-relative">
+            <a class="navbar-brand" href="#">Indu Shekhar Jha</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
             <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item active">
+              </li>
+              <li class="nav-item active">
             <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
+              </li>
+              <li class="nav-item">
+            <a class="nav-link" href="experience.html">Experience</a>
+              </li>
+              <li class="nav-item">
             <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+              </li>
+          </ul>
+            </div>
+        </nav>
+    </header>
     <!-- section to implement the about section using the bootstrap -->
     <section class="about-section">
       <div class="container hero">
@@ -208,6 +203,7 @@
                 class="img-fluid"
               />
               <img
+                id="line"
                 src="about-image/Line 1.png"
                 alt="Aim Target"
                 class="img-fluid"
