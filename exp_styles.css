@@ -8,44 +8,30 @@
 
 body {
   min-height: 100vh;
-}
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 10px 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-  background-color: rgb(0, 0, 0, 0.5);
   font-family: "Poppins", sans-serif;
 }
 
-#logo {
+.bg-dark {
+  background-color: #020912c7 !important;
+}
+
+.navbar-brand {
   font-size: 2em;
-  color: #fff;
-  user-select: none;
   font-weight: 600;
 }
 
-.menu a {
+.nav-link {
   font-size: 0.8em;
-  color: #fff;
   font-weight: 500;
-  text-decoration: none;
-  margin-left: 20px;
   letter-spacing: 1px;
-  padding: 6px 15px;
-  border-radius: 8px;
   transition: 0.5s;
 }
 
-.menu a:hover,
-a.active {
-  color: #333;
-  background: #fff;
+.nav-link:hover,
+.nav-link.active {
+  color: #333 !important;
+  background: #fff !important;
+  border-radius: 8px;
 }
 
 .parallax {
@@ -106,7 +92,8 @@ p {
   font-size: 1em;
   font-weight: 300;
 }
-/* crousel section */
+
+/* carousel section */
 .carousel {
   aspect-ratio: 4 / 4;
   height: 70vh;
@@ -122,6 +109,7 @@ p {
   height: 100%;
   object-fit: cover;
 }
+
 .carousel-caption {
   position: absolute;
   bottom: 0px;
@@ -209,7 +197,7 @@ p {
 }
 
 /* footer */
-.footer p{
+.footer p {
   text-align: center;
   color: blue;
 }
@@ -219,6 +207,7 @@ p {
   section {
     padding: 30px 10px;
   }
+
   #voice-controlled-wheelchair,
   #tini-militia-game {
     padding: 15px;
@@ -233,12 +222,9 @@ p {
   #tini-militia-game h3 {
     font-size: 1.5em; /* Adjust font size for mobile */
   }
+
   .parallax {
     height: 30vh;
-  }
-  .carousel {
-    height: auto;
-    aspect-ratio: auto;
   }
 
   #voice-controlled-wheelchair p,
@@ -261,23 +247,12 @@ p {
   #heading {
     font-size: 3em;
   }
+
   .carousel {
     width: auto;
     height: auto;
     aspect-ratio: auto;
   }
-
-  /* .parallax img#moon {
-    width: 180px;
-  }
-
-  .parallax img#mountain {
-    bottom: 20%;
-  }
-
-  .parallax img#grass {
-    bottom: -10%;
-  } */
 
   section {
     margin-top: -60px;
@@ -305,24 +280,10 @@ p {
   #heading {
     font-size: 3em;
   }
+
   .parallax {
     height: 30vh;
   }
-  /* .parallax img#moon {
-    width: 180px;
-    top: 65%;
-    right: 10%;
-  }
-
-  .parallax img#mountain {
-    width: 130%;
-    bottom: 20%;
-  }
-
-  .parallax img#grass {
-    bottom: -5%;
-    width: 130%;
-  } */
 
   section {
     margin-top: -60px;
