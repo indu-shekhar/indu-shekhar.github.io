@@ -305,42 +305,89 @@ nav {
   text-align: center;
 }
 
+
 @media (max-width: 768px) {
-  .about-section{
-    height: 80vh;
+  .about-section {
+    min-height: 100vh;
+    padding: 2rem 1rem;
   }
-  #line{
-    display: none;
+
+  .about-content {
+    text-align: center;
+    padding: 1rem;
   }
+
+  #hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .name {
+    font-size: 3.5rem !important;
+    padding: 0 !important;
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+
+  #first, #second, #third {
+    padding-left: 0 !important;
+  }
+
+  .social-icons {
+    margin: 2rem 0;
+  }
+
+  .social-icons a {
+    font-size: 2rem;
+    margin: 0 15px;
+  }
+
+  .about-img {
+    margin-top: 2rem;
+    position: relative;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .about-image {
+    position: relative;
+    max-width: 80%;
+    height: auto;
+    transform: none;
+    left: auto;
+    top: auto;
+  }
+
   .about-bg-img {
-    display: none;
+    display: block;
+    opacity: 0.3;
+  }
+
+  .col-lg-6 {
+    width: 100%;
+  }
+
+  .hero {
+    padding-top: 1rem;
   }
   .aim-target{
     display:inline-table;
   }
-  .social-media{
-    display: inline-table;
+  #line{
+    display: none;
   }
-  .col-lg-6{
-    display:contents;
-    flex-wrap: wrap;
-  }
-  .about-image{
-    display:block;
-    margin-top:2rem;
-    width: 100%;
-    overflow: hidden;
-  }
-  .about-content{
-    justify-content: center;
-    align-items: center;
-    font-weight: auto;
-  }
-  #second {
-    padding-left: auto;
-  }
-  #third {
-    padding-left: auto;
-  }
-
 }
+
+/* Add these general styles outside media query */
+.about-content {
+  transition: all 0.3s ease;
+}
+
+/* .about-image {
+  transition: all 0.3s ease;
+  max-width: 100%;
+  height: auto;
+} */
