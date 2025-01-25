@@ -7,6 +7,7 @@
     <title>My protfolio</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="mediaqueries.css" />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
     <script src="script.js"></script>
     <!-- <script src="anime.min.js"></script> -->
   </head>
@@ -14,12 +15,12 @@
   <body>
     <nav id="desktop-nav">
       <div class="logo heading">
-        <img src="./assets/logo.png" alt="logo" />
+        <img src="./assets/favicon.ico" alt="logo" />
         Indu
       </div>
       <div>
         <ul class="nav-links">
-            <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="experience.html">Projects</a></li>
           <li><a href="contact.html">Contacts</a></li>
@@ -36,9 +37,15 @@
         </div>
         <div class="menu-links">
           <ul>
-            <li><a href="index.html" class="active" onclick="toggleMenu()">home</a></li>
+            <li>
+              <a href="index.html" class="active" onclick="toggleMenu()"
+                >home</a
+              >
+            </li>
             <li><a href="about.html" onclick="toggleMenu()">about</a></li>
-            <li><a href="experience.html" onclick="toggleMenu()">projects</a></li>
+            <li>
+              <a href="experience.html" onclick="toggleMenu()">projects</a>
+            </li>
             <li><a href="contact.html" onclick="toggleMenu()">contacts</a></li>
           </ul>
         </div>
@@ -47,14 +54,15 @@
     <section id="profile">
       <div class="section__pic-container">
         <img
-          src="./assets/profile-pic.png"
+          src="./assets/profile.jpg"
           alt="indu shekhar profile picture"
+          style="border-radius: 50%;"
         />
       </div>
       <div class="section__text">
         <p class="section__text__p1">Hello,I'm</p>
         <h1 class="title">Indu Shekhar</h1>
-        <div id = 'animated-text'></div>
+        <div id="animated-text"></div>
         <div class="button-container">
           <button
             class="btn btn-color-2"
@@ -305,7 +313,7 @@
                   class="icon"
                 />
                 <div>
-                  <h3>VS Code & studio </h3>
+                  <h3>VS Code & studio</h3>
                   <p>Experienced</p>
                 </div>
               </article>
@@ -334,19 +342,21 @@
               />
             </div>
             <div>
-              <h2 class="experience-sub-title project-title">smart voice wheelchair</h2>
+              <h2 class="experience-sub-title project-title">
+                smart voice wheelchair
+              </h2>
               <div class="button-container">
                 <button
                   class="btn btn-color-2 project-btn"
-                  onclick="location.href='https://github.com/'"
+                  onclick="location.href='https://github.com/indu-shekhar/Smart_Voice_wheelchair'"
                 >
                   Github
                 </button>
                 <button
                   class="btn btn-color-2 project-btn"
-                  onclick="location.href='https://github.com/'"
+                  onclick="location.href='https://github.com/indu-shekhar/Smart_Voice_wheelchair'"
                 >
-                  Demo 
+                  Demo
                 </button>
               </div>
             </div>
@@ -364,15 +374,15 @@
               <div class="button-container">
                 <button
                   class="btn btn-color-2 project-btn"
-                  onclick="location.href='https://github.com/'"
+                  onclick="location.href='https://github.com/indu-shekhar/tini-militia_shooting_game'"
                 >
                   Github
                 </button>
                 <button
                   class="btn btn-color-2 project-btn"
-                  onclick="location.href='https://github.com/'"
+                  onclick="location.href='https://github.com/indu-shekhar/tini-militia_shooting_game'"
                 >
-                  Demo 
+                  Demo
                 </button>
               </div>
             </div>
@@ -386,19 +396,21 @@
               />
             </div>
             <div>
-              <h2 class="experience-sub-title project-title">Govt. SchemeSaathi</h2>
+              <h2 class="experience-sub-title project-title">
+                Govt. SchemeSaathi
+              </h2>
               <div class="button-container">
                 <button
                   class="btn btn-color-2 project-btn"
-                  onclick="location.href='https://github.com/'"
+                  onclick="location.href='https://github.com/indu-shekhar/SchemeSaathi'"
                 >
                   Github
                 </button>
                 <button
                   class="btn btn-color-2 project-btn"
-                  onclick="location.href='https://github.com/'"
+                  onclick="location.href='https://github.com/indu-shekhar/SchemeSaathi'"
                 >
-                  Demo 
+                  Demo
                 </button>
               </div>
             </div>
@@ -422,7 +434,9 @@
             alt="email icon"
             class="icon contact-icon"
           />
-          <p><a href="mailto:122cs0076@iiitk.ac.in">122cs0076@iiitk.ac.in</a></p>
+          <p>
+            <a href="mailto:122cs0076@iiitk.ac.in">122cs0076@iiitk.ac.in</a>
+          </p>
         </div>
         <div class="contact-info-container">
           <img
