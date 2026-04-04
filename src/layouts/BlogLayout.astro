@@ -1,0 +1,164 @@
+---
+import Layout from './Layout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Indu Shekhar Jha',
+    url: 'https://indushekhar.tech',
+  },
+  datePublished: date,
+  url: `https://indushekhar.tech/blog/${post.slug}`,
+};
+
+const formattedDate = new Date(date).toLocaleDateString('en-IN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout
+  title={`${title} — Indu Shekhar Jha`}
+  description={description}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <style is:global>
+    html.light body {
+      background-color: #f8fafc;
+      color: #475569;
+    }
+    html.light .text-slate-200 { color: #1e293b; }
+    html.light .text-slate-300 { color: #334155; }
+    html.light .text-slate-400 { color: #475569; }
+    html.light .text-slate-500 { color: #64748b; }
+    html.light .text-teal-400  { color: #0d9488; }
+    html.light .text-teal-300  { color: #0f766e; }
+    html.light .bg-teal-400\/10 { background-color: rgba(13,148,136,0.1); }
+    html.light .border-slate-800 { border-color: #e2e8f0; }
+    html.light .border-slate-700 { border-color: #cbd5e1; }
+    html.light #spotlight { display: none; }
+    /* Prose overrides for light mode */
+    html.light article.prose {
+      --tw-prose-body: #334155;
+      --tw-prose-headings: #0f172a;
+      --tw-prose-links: #0d9488;
+      --tw-prose-bold: #1e293b;
+      --tw-prose-code: #0f766e;
+      --tw-prose-pre-bg: #f1f5f9;
+      --tw-prose-counters: #64748b;
+      --tw-prose-bullets: #64748b;
+      --tw-prose-hr: #e2e8f0;
+      --tw-prose-quotes: #334155;
+      --tw-prose-quote-borders: #e2e8f0;
+      --tw-prose-th-borders: #e2e8f0;
+      --tw-prose-td-borders: #f1f5f9;
+      --tw-prose-captions: #64748b;
+    }
+    html.light article.prose code {
+      background-color: #f1f5f9;
+    }
+    html.light article.prose pre {
+      background-color: #f1f5f9;
+      border-color: #e2e8f0;
+    }
+  </style>
+
+  <div class="mx-auto min-h-screen max-w-screen-md px-6 py-16 md:px-12 md:py-24">
+    <!-- Top bar: back link + theme toggle -->
+    <div class="mb-8 flex items-center justify-between">
+      <a href="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 rotate-180" aria-hidden="true">
+          <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+        </svg>
+        All Posts
+      </a>
+
+      <!-- Theme toggle -->
+      <button
+        id="theme-toggle"
+        aria-label="Toggle light/dark mode"
+        class="rounded-full border border-slate-700 p-2 text-slate-400 transition-colors hover:border-teal-400 hover:text-teal-400"
+      >
+        <!-- Sun icon (shown in dark mode) -->
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+          <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zm8-5a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zm9.773-5.227a.75.75 0 010 1.06l-1.061 1.061a.75.75 0 01-1.06-1.06l1.06-1.061a.75.75 0 011.061 0zm-9.546 9.546a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 01-1.061-1.06l1.06-1.061a.75.75 0 011.061 0zM14.773 14.773a.75.75 0 01-1.06 0l-1.061-1.06a.75.75 0 011.06-1.061l1.061 1.06a.75.75 0 010 1.061zM6.288 5.227a.75.75 0 01-1.061 0L4.166 4.166a.75.75 0 011.06-1.061l1.061 1.06a.75.75 0 010 1.061zM10 7a3 3 0 100 6 3 3 0 000-6z" />
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="hidden h-4 w-4">
+          <path fill-rule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+    <header class="mb-10">
+      <div class="mb-4 flex items-center gap-3 text-sm text-slate-500">
+        <time datetime={date}>{formattedDate}</time>
+        <span>·</span>
+        <span>By <a href="/" class="text-slate-400 hover:text-teal-300 transition-colors">Indu Shekhar Jha</a></span>
+      </div>
+
+      <h1 class="text-3xl font-bold tracking-tight text-slate-200 sm:text-4xl">{title}</h1>
+      <p class="mt-4 text-lg text-slate-400">{description}</p>
+
+      <ul class="mt-6 flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <li>
+            <span class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-300">{tag}</span>
+          </li>
+        ))}
+      </ul>
+    </header>
+
+    <article class="prose prose-invert prose-slate max-w-none prose-a:text-teal-400 prose-a:no-underline hover:prose-a:text-teal-300 prose-headings:text-slate-200 prose-strong:text-slate-200 prose-code:text-teal-300 prose-code:bg-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700">
+      <slot />
+    </article>
+
+    <div class="mt-16 border-t border-slate-800 pt-8 flex items-center justify-between">
+      <a href="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 rotate-180" aria-hidden="true">
+          <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+        </svg>
+        All Posts
+      </a>
+      <a href="/" class="text-sm text-slate-500 hover:text-teal-300 transition-colors">
+        indushekhar.tech
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const iconSun = document.getElementById('icon-sun');
+  const iconMoon = document.getElementById('icon-moon');
+  const html = document.documentElement;
+
+  // Restore saved preference
+  if (localStorage.getItem('theme') === 'light') {
+    html.classList.add('light');
+    iconSun?.classList.add('hidden');
+    iconMoon?.classList.remove('hidden');
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isLight = html.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    iconSun?.classList.toggle('hidden', isLight);
+    iconMoon?.classList.toggle('hidden', !isLight);
+  });
+</script>

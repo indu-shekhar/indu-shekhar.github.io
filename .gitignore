@@ -1,1 +1,17 @@
 CLAUDE.md
+Reference/
+
+# Astro build output
+dist/
+.astro/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/extensions.json

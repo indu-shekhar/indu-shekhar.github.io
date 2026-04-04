@@ -1,0 +1,58 @@
+---
+title: "Scheme-Saathi — AI Public Service Platform"
+description: "A multilingual AI-powered platform helping 1,000+ citizens discover and access government schemes through natural language search and personalized recommendations."
+date: "2025-01"
+tags: ["Flask", "SQLAlchemy", "Redis", "Celery", "ChromaDB", "TailwindCSS", "Alpine.js", "OAuth2"]
+github: "https://github.com/indu-shekhar"
+featured: true
+image: "/assets/project-2.png"
+order: 2
+---
+
+## Overview
+
+Scheme-Saathi is a production-grade web application that helps Indian citizens discover government welfare schemes they're eligible for, in their own language. Over 1,000 users have used it to find and apply for schemes they previously didn't know existed.
+
+## The Problem
+
+India has hundreds of central and state government schemes across health, agriculture, education, and social welfare. Most citizens — especially in rural areas — never benefit from them because:
+- Scheme information is scattered across dozens of portals
+- Content is only available in English
+- No personalization: a farmer and a student see the same results
+
+## Solution Architecture
+
+### AI Recommendation Engine
+At the core is a semantic search system:
+- **SentenceTransformer** embeddings encode both scheme documents and user queries into the same vector space
+- **ChromaDB** stores and retrieves embeddings at sub-100ms latency
+- Personalization layer re-ranks results using the user's profile (age, occupation, state, income)
+- Improved suggestion accuracy by **67%** over keyword-based search
+
+### Backend Design
+Built with production patterns from day one:
+- **Repository + Unit of Work** patterns abstract the database layer — switching from SQLite to PostgreSQL required zero application code changes
+- **Pydantic v2** validation with OpenAPI docs auto-generation
+- **Redis + Celery** for async tasks (scheme data sync, email notifications) — improved throughput by **40%**
+- **OAuth2 JWT** with RBAC: admin, citizen, and partner roles
+
+### Frontend
+- **TailwindCSS + Alpine.js** — responsive, zero-framework, works on 2G connections
+- Language detection + multilingual UI (Hindi, Tamil, Telugu)
+- Graceful degradation: core search works without JavaScript
+
+## Results
+
+| Metric | Value |
+|--------|-------|
+| Active users | 1,000+ |
+| Throughput improvement | 40% (Redis + Celery) |
+| Recommendation accuracy | +67% |
+| Languages supported | 3+ |
+
+## Tech Stack
+
+**Backend:** Flask · SQLAlchemy ORM · PostgreSQL · Redis · Celery · Pydantic
+**AI:** SentenceTransformer · ChromaDB · API Setu (live scheme data)
+**Frontend:** TailwindCSS · Alpine.js · Jinja2
+**Auth:** OAuth2 · JWT · RBAC

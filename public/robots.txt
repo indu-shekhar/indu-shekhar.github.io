@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://indushekhar.tech/sitemap.xml

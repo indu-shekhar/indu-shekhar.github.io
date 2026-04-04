@@ -1,0 +1,103 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  canonicalURL?: string;
+}
+
+const {
+  title = 'Indu Shekhar Jha | Software Engineer & AI Developer',
+  description = 'Indu Shekhar Jha is a software engineer and AI developer at indushekhar.tech, specializing in Python, FastAPI, LLMs, and backend systems. Currently at Appscrip and IIITDM Kurnool.',
+  image = '/assets/profile.jpg',
+  type = 'website',
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+} = Astro.props;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Indu Shekhar Jha',
+  url: 'https://indushekhar.tech',
+  image: 'https://indushekhar.tech/assets/profile.jpg',
+  jobTitle: 'Software Engineer & AI Developer',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Appscrip',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'IIITDM Kurnool',
+  },
+  sameAs: [
+    'https://github.com/indu-shekhar',
+    'https://linkedin.com/in/indushekhar-jha',
+    'https://leetcode.com/indu9128840871',
+    'https://twitter.com/Indushekharjh15',
+  ],
+  knowsAbout: ['Python', 'FastAPI', 'Machine Learning', 'RAG', 'LLMs', 'C++', 'Backend Development'],
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta property="og:site_name" content="Indu Shekhar Jha" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Indushekharjh15" />
+    <meta name="twitter:creator" content="@Indushekharjh15" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).href} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </head>
+  <body class="bg-slate-900 font-sans leading-relaxed text-slate-400 antialiased selection:bg-teal-300 selection:text-teal-900">
+    <a href="#content" class="absolute left-0 top-0 -translate-y-full bg-teal-400 px-4 py-3 text-sm font-bold text-slate-900 transition focus-visible:translate-y-0">
+      Skip to content
+    </a>
+
+    <!-- Mouse spotlight overlay -->
+    <div id="spotlight" class="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300" aria-hidden="true"></div>
+
+    <slot />
+  </body>
+</html>
+
+<script>
+  const spotlight = document.getElementById('spotlight');
+  if (spotlight) {
+    window.addEventListener('mousemove', e => {
+      spotlight.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.12), transparent 80%)`;
+    });
+    // Fade out spotlight when mouse leaves the window
+    window.addEventListener('mouseleave', () => {
+      spotlight.style.background = 'none';
+    });
+  }
+</script>
