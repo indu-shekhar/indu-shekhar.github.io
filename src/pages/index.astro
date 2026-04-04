@@ -61,18 +61,41 @@ const achievements = [
 ---
 
 <Layout>
-  <div class="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-5px); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.35; }
+      50%       { opacity: 0.65; }
+    }
+    .tech-icon { animation: float 3.5s ease-in-out infinite; }
+    .tech-icon:nth-child(2) { animation-delay: 0.4s; }
+    .tech-icon:nth-child(3) { animation-delay: 0.8s; }
+    .tech-icon:nth-child(4) { animation-delay: 1.2s; }
+    .tech-icon:nth-child(5) { animation-delay: 1.6s; }
+    .tech-icon:nth-child(6) { animation-delay: 2.0s; }
+    .tech-icon svg { animation: pulse-glow 3.5s ease-in-out infinite; }
+    .tech-icon:nth-child(2) svg { animation-delay: 0.4s; }
+    .tech-icon:nth-child(3) svg { animation-delay: 0.8s; }
+    .tech-icon:nth-child(4) svg { animation-delay: 1.2s; }
+    .tech-icon:nth-child(5) svg { animation-delay: 1.6s; }
+    .tech-icon:nth-child(6) svg { animation-delay: 2.0s; }
+  </style>
+
+  <div class="mx-auto min-h-screen w-[92%] max-w-screen-2xl py-12 md:py-20 lg:py-0">
     <div class="lg:flex lg:justify-between lg:gap-4">
 
       <!-- ─── SIDEBAR ─── -->
-      <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[45%] lg:flex-col lg:justify-between lg:py-24">
+      <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[48%] lg:flex-col lg:justify-between lg:py-24">
         <div>
           <!-- Profile image -->
-          <div class="mb-6">
+          <div class="mb-5">
             <img
               src="/about-image/my_image_new.jpg"
               alt="Indu Shekhar Jha"
-              class="h-20 w-20 rounded-full object-cover object-top ring-2 ring-slate-700 ring-offset-2 ring-offset-slate-900"
+              class="h-16 w-16 rounded-full object-cover object-top ring-2 ring-slate-700 ring-offset-2 ring-offset-slate-900 transition-all duration-300 hover:ring-teal-400"
               loading="eager"
             />
           </div>
@@ -83,7 +106,7 @@ const achievements = [
           <h2 class="mt-3 text-lg font-medium tracking-tight text-slate-200">
             Software Engineer &amp; AI Developer
           </h2>
-          <p class="mt-4 max-w-xs leading-normal text-slate-400">
+          <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
             I build intelligent backends, LLM-powered systems, and high-performance software. Currently interning at Appscrip and finishing B.Tech at IIITDM Kurnool.
           </p>
 
@@ -91,16 +114,13 @@ const achievements = [
           <nav class="nav hidden lg:block" aria-label="In-page sections">
             <ul class="mt-16 w-max">
               {[
-                { label: 'About', href: '#about' },
+                { label: 'About',      href: '#about' },
                 { label: 'Experience', href: '#experience' },
-                { label: 'Projects', href: '#projects' },
-                { label: 'Writing', href: '#writing' },
+                { label: 'Projects',   href: '#projects' },
+                { label: 'Writing',    href: '#writing' },
               ].map(({ label, href }) => (
                 <li>
-                  <a
-                    class="group flex items-center py-3 nav-link"
-                    href={href}
-                  >
+                  <a class="group flex items-center py-3 nav-link" href={href}>
                     <span class="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all duration-300 group-hover:w-16 group-hover:bg-slate-200"></span>
                     <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate-500 transition-colors duration-300 group-hover:text-slate-200">
                       {label}
@@ -112,49 +132,124 @@ const achievements = [
           </nav>
         </div>
 
-        <!-- Social links -->
-        <ul class="ml-1 mt-8 flex items-center gap-5" aria-label="Social media">
-          <li>
-            <a href="https://github.com/indu-shekhar" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="block text-slate-400 transition-colors hover:text-slate-200">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-6 w-6" aria-hidden="true">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        <!-- ── Bottom of sidebar: tech icons + photo + socials ── -->
+        <div>
+          <!-- Animated backend tech icons -->
+          <div class="mb-6 hidden lg:flex items-end gap-4">
+            <!-- Redis -->
+            <div class="tech-icon group flex flex-col items-center gap-1" title="Redis">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-[#FF4438] stroke-[1.5]" aria-hidden="true">
+                <path d="M3 7l9-4 9 4-9 4-9-4z"/>
+                <path d="M3 7v5l9 4 9-4V7"/>
+                <path d="M3 12v5l9 4 9-4v-5"/>
               </svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://linkedin.com/in/indushekhar-jha" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="block text-slate-400 transition-colors hover:text-slate-200">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6" aria-hidden="true">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              <span class="text-[9px] uppercase tracking-wider text-slate-600 opacity-0 transition-opacity group-hover:opacity-100">Redis</span>
+            </div>
+
+            <!-- Kafka -->
+            <div class="tech-icon group flex flex-col items-center gap-1" title="Kafka">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-slate-500 stroke-[1.5]" aria-hidden="true">
+                <circle cx="12" cy="4" r="2"/>
+                <circle cx="4" cy="20" r="2"/>
+                <circle cx="20" cy="20" r="2"/>
+                <path d="M12 6v5M10.5 11l-4.5 7M13.5 11l4.5 7"/>
               </svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://leetcode.com/indu9128840871" target="_blank" rel="noopener noreferrer" aria-label="LeetCode" class="block text-slate-400 transition-colors hover:text-slate-200">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6" aria-hidden="true">
-                <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H19.8a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/>
+              <span class="text-[9px] uppercase tracking-wider text-slate-600 opacity-0 transition-opacity group-hover:opacity-100">Kafka</span>
+            </div>
+
+            <!-- PostgreSQL -->
+            <div class="tech-icon group flex flex-col items-center gap-1" title="PostgreSQL">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-[#336791] stroke-[1.5]" aria-hidden="true">
+                <ellipse cx="12" cy="6" rx="8" ry="3"/>
+                <path d="M4 6v4c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/>
+                <path d="M4 10v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4"/>
+                <path d="M4 14v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4"/>
               </svg>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/Indushekharjh15" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" class="block text-slate-400 transition-colors hover:text-slate-200">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6" aria-hidden="true">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+              <span class="text-[9px] uppercase tracking-wider text-slate-600 opacity-0 transition-opacity group-hover:opacity-100">Postgres</span>
+            </div>
+
+            <!-- Docker -->
+            <div class="tech-icon group flex flex-col items-center gap-1" title="Docker">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-[#2496ED] stroke-[1.5]" aria-hidden="true">
+                <rect x="2"  y="11" width="3" height="3" rx="0.4"/>
+                <rect x="6"  y="11" width="3" height="3" rx="0.4"/>
+                <rect x="10" y="11" width="3" height="3" rx="0.4"/>
+                <rect x="10" y="7"  width="3" height="3" rx="0.4"/>
+                <rect x="14" y="11" width="3" height="3" rx="0.4"/>
+                <path d="M2 14.5c3 2 8 2.5 13 0.5 1.5-.6 3-1.8 3.5-3.5-.5 0-2 .5-3 0"/>
+                <path d="M19.5 10c-.5-1-2-1.5-3-1"/>
               </svg>
-            </a>
-          </li>
-        </ul>
+              <span class="text-[9px] uppercase tracking-wider text-slate-600 opacity-0 transition-opacity group-hover:opacity-100">Docker</span>
+            </div>
+
+            <!-- FastAPI -->
+            <div class="tech-icon group flex flex-col items-center gap-1" title="FastAPI">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-teal-500 stroke-[1.5]" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M13 2.5L7 13.5h5l-1 8 6-11h-5z"/>
+              </svg>
+              <span class="text-[9px] uppercase tracking-wider text-slate-600 opacity-0 transition-opacity group-hover:opacity-100">FastAPI</span>
+            </div>
+
+            <!-- ChromaDB / Vector DB -->
+            <div class="tech-icon group flex flex-col items-center gap-1" title="ChromaDB">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-none stroke-purple-400 stroke-[1.5]" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/>
+                <circle cx="12" cy="12" r="7"/>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="2"  x2="12" y2="5"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="2"  y1="12" x2="5"  y2="12"/>
+                <line x1="19" y1="12" x2="22" y2="12"/>
+              </svg>
+              <span class="text-[9px] uppercase tracking-wider text-slate-600 opacity-0 transition-opacity group-hover:opacity-100">VectorDB</span>
+            </div>
+          </div>
+
+          <!-- Social links -->
+          <ul class="ml-1 mt-2 flex items-center gap-5" aria-label="Social media">
+            <li>
+              <a href="https://github.com/indu-shekhar" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="block text-slate-400 transition-colors hover:text-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com/in/indushekhar-jha" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="block text-slate-400 transition-colors hover:text-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://leetcode.com/indu9128840871" target="_blank" rel="noopener noreferrer" aria-label="LeetCode" class="block text-slate-400 transition-colors hover:text-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H19.8a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/>
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/Indushekharjh15" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" class="block text-slate-400 transition-colors hover:text-slate-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
       </header>
 
       <!-- ─── MAIN CONTENT ─── -->
-      <main id="content" class="pt-24 lg:w-[55%] lg:py-24">
+      <main id="content" class="pt-24 lg:w-[52%] lg:py-24">
 
         <!-- ABOUT -->
-        <section id="about" class="mb-16 scroll-mt-16 lg:mb-36 lg:scroll-mt-24" aria-label="About me">
+        <section id="about" class="mb-16 scroll-mt-16 lg:mb-24 lg:scroll-mt-24" aria-label="About me">
           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
             <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">About</h2>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-3 text-sm leading-relaxed">
             <p>
               I'm a final-year Computer Science student at <a href="https://iiitk.ac.in" class="font-medium text-slate-200 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">IIITDM Kurnool</a> with a strong foundation in backend engineering, AI systems, and systems programming. I enjoy working at the intersection of performance and intelligence — building things that are both fast and smart.
             </p>
@@ -162,19 +257,19 @@ const achievements = [
               Currently I'm interning at <a href="https://appscrip.com" class="font-medium text-slate-200 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Appscrip</a> as a Python/AI Developer, building AI-SEO dashboards, Generative AI ranking systems, and multi-tenant analytics infrastructure. Outside of work I'm developing <a href="/projects/vbank" class="font-medium text-slate-200 hover:text-teal-300 transition-colors">VBank</a> — a voice-activated banking platform with biometric authentication — as part of a Government of India initiative.
             </p>
             <p>
-              When I'm not coding, I'm competing on LeetCode (ranked top 5% nationally), reading about distributed systems, or building small C++ game engines for fun.
+              When I'm not coding, I'm competing on LeetCode (top 5% nationally), reading about distributed systems, or building small C++ game engines for fun.
             </p>
           </div>
 
           <!-- Skills grid -->
-          <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div class="mt-8 grid grid-cols-2 gap-x-4 gap-y-5">
             {skills.map(({ category, items }) => (
               <div>
                 <h3 class="mb-2 text-xs font-bold uppercase tracking-widest text-slate-500">{category}</h3>
-                <ul class="flex flex-wrap gap-2">
+                <ul class="flex flex-wrap gap-1.5">
                   {items.map(item => (
                     <li>
-                      <span class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-300">
+                      <span class="rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300">
                         {item}
                       </span>
                     </li>
@@ -186,12 +281,12 @@ const achievements = [
         </section>
 
         <!-- EXPERIENCE -->
-        <section id="experience" class="mb-16 scroll-mt-16 lg:mb-36 lg:scroll-mt-24" aria-label="Work experience">
+        <section id="experience" class="mb-16 scroll-mt-16 lg:mb-24 lg:scroll-mt-24" aria-label="Work experience">
           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
             <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">Experience</h2>
           </div>
 
-          <ol class="group/list space-y-12">
+          <ol class="group/list space-y-10">
             {experience.map(exp => (
               <li class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
                 <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)]"></div>
@@ -200,29 +295,28 @@ const achievements = [
                 </header>
                 <div class="z-10 sm:col-span-6">
                   <h3 class="font-medium leading-snug text-slate-200">
-                    <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" class="group/link inline-flex items-baseline text-base font-medium leading-tight hover:text-teal-300 focus-visible:text-teal-300">
+                    <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" class="group/link inline-flex items-baseline text-sm font-medium leading-tight hover:text-teal-300 focus-visible:text-teal-300">
                       <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                      {exp.role} ·{' '}
-                      <span class="inline-block ml-1">{exp.company}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1" aria-hidden="true">
+                      {exp.role} · <span class="ml-1">{exp.company}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-1 inline-block h-3.5 w-3.5 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1" aria-hidden="true">
                           <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
                         </svg>
                       </span>
                     </a>
                   </h3>
                   <p class="mt-0.5 text-xs text-slate-500">{exp.location}</p>
-                  <ul class="mt-2 space-y-2 text-sm">
+                  <ul class="mt-2 space-y-1.5 text-sm">
                     {exp.bullets.map(bullet => (
                       <li class="flex gap-2">
-                        <span class="mt-1 shrink-0 text-teal-400">▹</span>
-                        <span>{bullet}</span>
+                        <span class="mt-0.5 shrink-0 text-teal-400 text-xs">▹</span>
+                        <span class="text-slate-400">{bullet}</span>
                       </li>
                     ))}
                   </ul>
-                  <ul class="mt-4 flex flex-wrap gap-2" aria-label="Technologies used">
+                  <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Technologies used">
                     {exp.tags.map(tag => (
                       <li>
-                        <span class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">{tag}</span>
+                        <span class="rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300">{tag}</span>
                       </li>
                     ))}
                   </ul>
@@ -232,24 +326,22 @@ const achievements = [
           </ol>
 
           <!-- Achievements -->
-          <div class="mt-12">
-            <h3 class="mb-4 text-sm font-bold uppercase tracking-widest text-slate-500">Achievements</h3>
-            <ul class="space-y-3">
+          <div class="mt-10">
+            <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Achievements</h3>
+            <ul class="space-y-2">
               {achievements.map(a => (
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 shrink-0 text-teal-400">★</span>
-                  <div>
-                    <span class="font-medium text-slate-300">{a.title}</span>
-                    <span class="ml-2 text-sm text-slate-500">— {a.detail}</span>
-                    <span class="ml-2 text-xs text-slate-600">{a.year}</span>
-                  </div>
+                <li class="flex items-baseline gap-2 text-sm">
+                  <span class="shrink-0 text-teal-400 text-xs">★</span>
+                  <span class="font-medium text-slate-300">{a.title}</span>
+                  <span class="text-slate-500">— {a.detail}</span>
+                  <span class="text-xs text-slate-600">{a.year}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div class="mt-12">
-            <a href="/assets/Indu_Jha_resume.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-medium text-slate-200 hover:text-teal-300 transition-colors group">
+          <div class="mt-8">
+            <a href="/assets/Indu_Jha_resume.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-slate-200 hover:text-teal-300 transition-colors group">
               View Full Resume
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true">
                 <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
@@ -259,12 +351,12 @@ const achievements = [
         </section>
 
         <!-- PROJECTS -->
-        <section id="projects" class="mb-16 scroll-mt-16 lg:mb-36 lg:scroll-mt-24" aria-label="Selected projects">
+        <section id="projects" class="mb-16 scroll-mt-16 lg:mb-24 lg:scroll-mt-24" aria-label="Selected projects">
           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
             <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">Projects</h2>
           </div>
 
-          <ul class="group/list space-y-12">
+          <ul class="group/list space-y-10">
             {featuredProjects.map(project => (
               <li class="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
                 <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)]"></div>
@@ -280,19 +372,19 @@ const achievements = [
 
                 <div class={`z-10 ${project.data.image ? 'sm:order-2 sm:col-span-6' : 'sm:col-span-8'}`}>
                   <h3 class="font-medium leading-snug text-slate-200">
-                    <a href={`/projects/${project.slug}`} class="group/link inline-flex items-baseline text-base font-medium leading-tight hover:text-teal-300 focus-visible:text-teal-300">
+                    <a href={`/projects/${project.slug}`} class="group/link inline-flex items-baseline text-sm font-medium leading-tight hover:text-teal-300 focus-visible:text-teal-300">
                       <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
                       {project.data.title}
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1" aria-hidden="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-1 inline-block h-3.5 w-3.5 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1" aria-hidden="true">
                         <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
                       </svg>
                     </a>
                   </h3>
-                  <p class="mt-2 text-sm leading-normal">{project.data.description}</p>
-                  <ul class="mt-2 flex flex-wrap gap-2" aria-label="Technologies used">
+                  <p class="mt-1.5 text-sm leading-normal text-slate-400">{project.data.description}</p>
+                  <ul class="mt-2 flex flex-wrap gap-1.5" aria-label="Technologies used">
                     {project.data.tags.map(tag => (
                       <li>
-                        <span class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">{tag}</span>
+                        <span class="rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300">{tag}</span>
                       </li>
                     ))}
                   </ul>
@@ -301,8 +393,8 @@ const achievements = [
             ))}
           </ul>
 
-          <div class="mt-12">
-            <a href="/projects" class="inline-flex items-center gap-1 font-medium text-slate-200 hover:text-teal-300 transition-colors group">
+          <div class="mt-8">
+            <a href="/projects" class="inline-flex items-center gap-1 text-sm font-medium text-slate-200 hover:text-teal-300 transition-colors group">
               View All Projects
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true">
                 <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
@@ -312,13 +404,13 @@ const achievements = [
         </section>
 
         <!-- WRITING -->
-        <section id="writing" class="mb-16 scroll-mt-16 lg:mb-36 lg:scroll-mt-24" aria-label="Recent writing">
+        <section id="writing" class="mb-16 scroll-mt-16 lg:mb-24 lg:scroll-mt-24" aria-label="Recent writing">
           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
             <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">Writing</h2>
           </div>
 
           {recentPosts.length > 0 ? (
-            <ul class="group/list space-y-12">
+            <ul class="group/list space-y-8">
               {recentPosts.map(post => (
                 <li class="group relative grid pb-1 transition-all lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
                   <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
@@ -327,16 +419,16 @@ const achievements = [
                       {new Date(post.data.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </p>
                     <h3 class="font-medium leading-snug text-slate-200">
-                      <a href={`/blog/${post.slug}`} class="group/link inline-flex items-baseline text-base font-medium leading-tight hover:text-teal-300">
+                      <a href={`/blog/${post.slug}`} class="group/link inline-flex items-baseline text-sm font-medium leading-tight hover:text-teal-300">
                         <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
                         {post.data.title}
                       </a>
                     </h3>
-                    <p class="mt-2 text-sm leading-normal">{post.data.description}</p>
-                    <ul class="mt-2 flex flex-wrap gap-2">
+                    <p class="mt-1.5 text-sm leading-normal text-slate-400">{post.data.description}</p>
+                    <ul class="mt-2 flex flex-wrap gap-1.5">
                       {post.data.tags.map(tag => (
                         <li>
-                          <span class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-300">{tag}</span>
+                          <span class="rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300">{tag}</span>
                         </li>
                       ))}
                     </ul>
@@ -345,11 +437,11 @@ const achievements = [
               ))}
             </ul>
           ) : (
-            <p class="text-slate-500">Posts coming soon. I write about backend systems, AI engineering, and competitive programming.</p>
+            <p class="text-sm text-slate-500">Posts coming soon. I write about backend systems, AI engineering, and competitive programming.</p>
           )}
 
-          <div class="mt-12">
-            <a href="/blog" class="inline-flex items-center gap-1 font-medium text-slate-200 hover:text-teal-300 transition-colors group">
+          <div class="mt-8">
+            <a href="/blog" class="inline-flex items-center gap-1 text-sm font-medium text-slate-200 hover:text-teal-300 transition-colors group">
               View All Posts
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true">
                 <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
@@ -359,9 +451,9 @@ const achievements = [
         </section>
 
         <!-- FOOTER -->
-        <footer class="max-w-md pb-16 text-sm text-slate-500">
+        <footer class="pb-16 text-xs text-slate-600">
           <p>
-            Designed with inspiration from <a href="https://brittanychiang.com" class="font-medium text-slate-400 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Brittany Chiang</a>. Built with <a href="https://astro.build" class="font-medium text-slate-400 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Astro</a> &amp; <a href="https://tailwindcss.com" class="font-medium text-slate-400 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Tailwind CSS</a>. Hosted on <a href="https://pages.github.com" class="font-medium text-slate-400 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">GitHub Pages</a>.
+            Inspired by <a href="https://brittanychiang.com" class="text-slate-500 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Brittany Chiang</a>. Built with <a href="https://astro.build" class="text-slate-500 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Astro</a> &amp; <a href="https://tailwindcss.com" class="text-slate-500 hover:text-teal-300 transition-colors" target="_blank" rel="noopener noreferrer">Tailwind</a>. Hosted on GitHub Pages.
           </p>
         </footer>
 
@@ -370,7 +462,6 @@ const achievements = [
   </div>
 </Layout>
 
-<!-- Scroll-spy + active nav script -->
 <script>
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -380,26 +471,20 @@ const achievements = [
       const href = link.getAttribute('href');
       const indicator = link.querySelector('.nav-indicator') as HTMLElement;
       const text = link.querySelector('.nav-text') as HTMLElement;
-      if (href === `#${id}`) {
-        indicator?.classList.add('w-16', 'bg-slate-200');
-        indicator?.classList.remove('w-8', 'bg-slate-600');
-        text?.classList.add('text-slate-200');
-        text?.classList.remove('text-slate-500');
-      } else {
-        indicator?.classList.remove('w-16', 'bg-slate-200');
-        indicator?.classList.add('w-8', 'bg-slate-600');
-        text?.classList.remove('text-slate-200');
-        text?.classList.add('text-slate-500');
-      }
+      const isActive = href === `#${id}`;
+      indicator?.classList.toggle('w-16', isActive);
+      indicator?.classList.toggle('bg-slate-200', isActive);
+      indicator?.classList.toggle('w-8', !isActive);
+      indicator?.classList.toggle('bg-slate-600', !isActive);
+      text?.classList.toggle('text-slate-200', isActive);
+      text?.classList.toggle('text-slate-500', !isActive);
     });
   }
 
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActive(entry.target.id);
-        }
+        if (entry.isIntersecting) setActive(entry.target.id);
       });
     },
     { rootMargin: '-40% 0px -55% 0px' }
@@ -407,14 +492,11 @@ const achievements = [
 
   sections.forEach(s => observer.observe(s));
 
-  // Smooth scroll
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const href = link.getAttribute('href');
-      if (href) {
-        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (href) document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     });
   });
 </script>
