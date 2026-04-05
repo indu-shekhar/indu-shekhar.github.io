@@ -1,0 +1,178 @@
+---
+import Layout from './Layout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, date, endDate, tags, github, live, image } = project.data;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Indu Shekhar Jha',
+    url: 'https://indushekhar.tech',
+  },
+  datePublished: date,
+  url: `https://indushekhar.tech/projects/${project.slug}`,
+};
+---
+
+<Layout
+  title={`${title} — Indu Shekhar Jha`}
+  description={description}
+  image={image}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <style is:global>
+    html.light body {
+      background-color: #f8fafc;
+      color: #475569;
+    }
+    html.light .text-slate-200 { color: #1e293b; }
+    html.light .text-slate-300 { color: #334155; }
+    html.light .text-slate-400 { color: #475569; }
+    html.light .text-slate-500 { color: #64748b; }
+    html.light .text-teal-400  { color: #0d9488; }
+    html.light .text-teal-300  { color: #0f766e; }
+    html.light .bg-teal-400\/10 { background-color: rgba(13,148,136,0.1); }
+    html.light .border-slate-800 { border-color: #e2e8f0; }
+    html.light .border-slate-700 { border-color: #cbd5e1; }
+    html.light .border-slate-600 { border-color: #cbd5e1; }
+    html.light #spotlight { display: none; }
+    html.light article.prose {
+      --tw-prose-body: #334155;
+      --tw-prose-headings: #0f172a;
+      --tw-prose-links: #0d9488;
+      --tw-prose-bold: #1e293b;
+      --tw-prose-code: #0f766e;
+      --tw-prose-pre-bg: #f1f5f9;
+      --tw-prose-counters: #64748b;
+      --tw-prose-bullets: #64748b;
+      --tw-prose-hr: #e2e8f0;
+      --tw-prose-th-borders: #e2e8f0;
+      --tw-prose-td-borders: #f1f5f9;
+    }
+    html.light article.prose code { background-color: #f1f5f9; }
+    html.light article.prose pre { background-color: #f1f5f9; border-color: #e2e8f0; }
+  </style>
+
+  <div class="mx-auto min-h-screen w-[80%] py-16 md:py-24">
+    <!-- Top bar: back link + theme toggle -->
+    <div class="mb-8 flex items-center justify-between">
+    <a href="/projects" class="inline-flex items-center gap-2 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 rotate-180" aria-hidden="true">
+        <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+      </svg>
+      All Projects
+    </a>
+
+      <!-- Theme toggle -->
+      <button
+        id="theme-toggle"
+        aria-label="Toggle light/dark mode"
+        class="rounded-full border border-slate-700 p-2 text-slate-400 transition-colors hover:border-teal-400 hover:text-teal-400"
+      >
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+          <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zm8-5a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0118 10zM5 10a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 015 10zm9.773-5.227a.75.75 0 010 1.06l-1.061 1.061a.75.75 0 01-1.06-1.06l1.06-1.061a.75.75 0 011.061 0zm-9.546 9.546a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 01-1.061-1.06l1.06-1.061a.75.75 0 011.061 0zM14.773 14.773a.75.75 0 01-1.06 0l-1.061-1.06a.75.75 0 011.06-1.061l1.061 1.06a.75.75 0 010 1.061zM6.288 5.227a.75.75 0 01-1.061 0L4.166 4.166a.75.75 0 011.06-1.061l1.061 1.06a.75.75 0 010 1.061zM10 7a3 3 0 100 6 3 3 0 000-6z" />
+        </svg>
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="hidden h-4 w-4">
+          <path fill-rule="evenodd" d="M7.455 2.004a.75.75 0 01.26.77 7 7 0 009.958 7.967.75.75 0 011.067.853A8.5 8.5 0 116.647 1.921a.75.75 0 01.808.083z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="mb-4 flex items-center gap-3 text-sm text-slate-500">
+        <time>{date}</time>
+        {endDate && <><span>—</span><span>{endDate}</span></>}
+      </div>
+
+      <h1 class="text-3xl font-bold tracking-tight text-slate-200 sm:text-4xl">{title}</h1>
+      <p class="mt-4 text-lg text-slate-400">{description}</p>
+
+      <!-- Tags -->
+      <ul class="mt-6 flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <li>
+            <span class="rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-300">{tag}</span>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Links -->
+      <div class="mt-6 flex gap-4">
+        {github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded border border-slate-600 px-4 py-2 text-sm font-medium text-slate-300 hover:border-teal-400 hover:text-teal-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            GitHub
+          </a>
+        )}
+        {live && (
+          <a href={live} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded border border-slate-600 px-4 py-2 text-sm font-medium text-slate-300 hover:border-teal-400 hover:text-teal-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+              <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clip-rule="evenodd" />
+            </svg>
+            Live Demo
+          </a>
+        )}
+      </div>
+
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          class="mt-8 w-full rounded-lg border border-slate-700 object-cover"
+          loading="lazy"
+        />
+      )}
+    </header>
+
+    <!-- MDX Content -->
+    <article class="prose prose-invert prose-slate max-w-none prose-a:text-teal-400 prose-a:no-underline hover:prose-a:text-teal-300 prose-headings:text-slate-200 prose-strong:text-slate-200 prose-code:text-teal-300 prose-code:bg-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700">
+      <slot />
+    </article>
+
+    <!-- Footer nav -->
+    <div class="mt-16 border-t border-slate-800 pt-8">
+      <a href="/projects" class="inline-flex items-center gap-2 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 rotate-180" aria-hidden="true">
+          <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+        </svg>
+        All Projects
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const iconSun = document.getElementById('icon-sun');
+  const iconMoon = document.getElementById('icon-moon');
+  const html = document.documentElement;
+
+  if (localStorage.getItem('theme') === 'light') {
+    html.classList.add('light');
+    iconSun?.classList.add('hidden');
+    iconMoon?.classList.remove('hidden');
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isLight = html.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    iconSun?.classList.toggle('hidden', isLight);
+    iconMoon?.classList.toggle('hidden', !isLight);
+  });
+</script>

@@ -1,0 +1,76 @@
+---
+title: "TiniMilitia-Shooter — 2D Game Engine"
+description: "A high-performance 2D shooter engine in modern C++17 using OpenGL and GLFW, sustaining 60 FPS with 100 active entities via RAII resource management and deterministic game loops."
+date: "2024-03"
+tags: ["C++17", "OpenGL", "GLFW", "CMake", "RAII", "OOP"]
+github: "https://github.com/indu-shekhar"
+featured: true
+image: "/assets/project-3.png"
+order: 4
+---
+
+## Overview
+
+A from-scratch 2D shooter game engine built to explore systems programming, real-time rendering, and game architecture. The engine runs at a locked 60 FPS with 100 simultaneously active entities — no engine dependencies, no garbage collector.
+
+## Why Build an Engine From Scratch?
+
+Using Unity or Unreal hides the hard problems. Building from scratch forces you to understand:
+- How a game loop works (fixed timestep vs. variable)
+- Why memory layout matters for cache performance
+- How RAII prevents resource leaks in a system with hundreds of entities
+
+## Core Architecture
+
+### Game Loop
+```
+while (running) {
+    processInput();
+    update(fixedDt);   // deterministic, physics
+    render();          // variable, visual interpolation
+}
+```
+Using a **fixed timestep** for update (16.67ms) and a variable timestep for rendering makes physics deterministic and reproducible — identical input always produces identical game state.
+
+### Entity Hierarchy
+```
+Entity
+  ├── Gunman  (player character)
+  ├── Enemy   (AI-controlled)
+  └── Bullet  (projectile)
+```
+Inheritance + polymorphism for entity update/render dispatch. **Value semantics** for bullets (cheap to copy, no pointer indirection) vs. reference semantics for Gunman/Enemy.
+
+### Memory Management
+- **RAII wrappers** around all OpenGL objects (VAO, VBO, shaders) — destructors release GPU resources, no manual cleanup
+- **Smart pointers** (`unique_ptr`) for entity ownership — no manual `new`/`delete`
+- **Object pooling** for bullets — avoids per-frame heap allocation at 60 FPS
+
+### Rendering Optimizations
+- **Sprite atlas**: all textures packed into a single atlas — one texture bind per frame instead of N
+- **Batched rendering**: all visible entities submitted in a single draw call
+- **Frustum culling**: off-screen entities skipped entirely
+
+## Performance
+
+| Scenario | FPS |
+|----------|-----|
+| 100 entities, all moving | 60 (locked) |
+| 100 entities + 200 bullets | 60 (locked) |
+| Stress test: 500 entities | ~45 |
+
+## Build System
+
+CMake handles cross-platform builds (Windows/Linux/macOS):
+```
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+External dependencies (GLFW, GLM, stb_image) managed via CMake FetchContent — no manual download required.
+
+## Tech Stack
+
+**Language:** C++17
+**Graphics:** OpenGL 3.3 · GLFW · GLAD · GLM · stb_image
+**Build:** CMake · FetchContent
+**Patterns:** RAII · Object Pooling · Batched Rendering · Fixed Timestep

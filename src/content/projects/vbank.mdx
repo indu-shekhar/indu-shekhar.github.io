@@ -1,0 +1,52 @@
+---
+title: "VBank — Voice-Based Banking Platform"
+description: "A secure, voice-activated banking system with real-time multimodal biometric authentication enabling hands-free transactions for accessibility."
+longDescription: "A Government of India initiative to make banking accessible for all. VBank uses speech and facial biometrics for authentication, and natural voice commands for banking operations."
+date: "2023-10"
+endDate: "Present"
+tags: ["FastAPI", "SpeechBrain", "InsightFace", "JWT", "PostgreSQL", "CI/CD", "Python"]
+github: "https://github.com/indu-shekhar"
+featured: true
+image: "/assets/project-1.png"
+order: 1
+---
+
+## Overview
+
+VBank is a voice-activated banking platform developed as part of a Government of India accessibility initiative. The system allows users to perform banking operations — balance checks, fund transfers, transaction history retrieval — entirely through voice commands, with biometric authentication ensuring security without compromising accessibility.
+
+## Architecture
+
+The system is built as a set of modular microservices:
+
+- **Authentication Service** — SpeechBrain (ECAPA-TDNN) for speaker verification + InsightFace for facial recognition
+- **Banking Core** — Transaction logic with ACID guarantees and idempotent APIs
+- **Intent Service** — Scikit-learn SVM achieving 92% precision on spoken banking commands
+- **API Gateway** — FastAPI with JWT session management, short-lived tokens + rotating refresh tokens
+
+## Key Technical Decisions
+
+### Multimodal Biometrics
+Single-factor voice authentication can be spoofed with recordings. Combining ECAPA-TDNN voice embeddings with InsightFace facial verification reduced fraud risk by **40%** and ensures liveness detection.
+
+### Idempotent Transaction Layer
+Banking operations must never be duplicated. Every transaction carries a client-generated idempotency key. The backend stores completed transaction IDs — retries within a 24-hour window return the cached result without re-executing.
+
+### RBAC + JWT
+Role-based access control separates customer, teller, and admin privilege surfaces. Short-lived access tokens (15 min) + rotating refresh tokens (7 days) limit the blast radius of any stolen token.
+
+## Results
+
+| Metric | Value |
+|--------|-------|
+| Supported transaction types | 10+ |
+| Fraud risk reduction | 40% |
+| Intent recognition precision | 92% |
+| Test coverage | 90%+ |
+| Transactions handled | 1,000+ |
+
+## Tech Stack
+
+**Backend:** FastAPI · SQLAlchemy · PostgreSQL · JWT
+**AI/ML:** SpeechBrain (ECAPA-TDNN) · InsightFace · Scikit-learn (SVM)
+**DevOps:** Docker · GitHub Actions · CI/CD · Static analysis + SAST

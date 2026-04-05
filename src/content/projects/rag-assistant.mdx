@@ -1,0 +1,77 @@
+---
+title: "RAG-Based Agentic Assistant"
+description: "A production-grade retrieval-augmented generation system supporting 1,000+ heterogeneous documents with agentic and non-agentic pipelines, built on LlamaIndex and multiple LLMs."
+date: "2025-03"
+endDate: "Present"
+tags: ["LlamaIndex", "FastAPI", "PostgreSQL", "ChromaDB", "Gemini 2.5", "LLaMA 3.2", "DeepSeek", "Python"]
+github: "https://github.com/indu-shekhar"
+featured: true
+image: "/assets/project-3.png"
+order: 3
+---
+
+## Overview
+
+A research and production project exploring the frontier of retrieval-augmented generation. The system ingests heterogeneous document collections (PDF, PPT, TXT, JSON, DOCX) and answers questions with citations, using both agentic (multi-step reasoning) and non-agentic (single-pass) pipelines.
+
+## Why RAG?
+
+Fine-tuning LLMs for every new document set is expensive and slow. RAG gives LLMs access to up-to-date, domain-specific knowledge at inference time — no retraining required. The challenge is doing retrieval *well*: ranking irrelevant chunks first destroys answer quality.
+
+## Pipeline Design
+
+### Document Ingestion
+- Format-aware parsers handle PDF, PPT, JSON, TXT
+- Chunking strategy varies by document type (sentences for prose, bullets for slides)
+- Three embedding modes per chunk: **summarization** (for overview queries), **Q&A** (for factual lookup), **contextual search** (for semantic similarity)
+
+### Retrieval
+- **ChromaDB** vector store with hybrid search (dense + sparse BM25)
+- Re-ranking pass using cross-encoder to boost precision
+- Boosted information retrieval precision by **30%** over baseline dense-only retrieval
+
+### LLM Layer
+Experimented with and benchmarked:
+- **LLaMA 3.2** — best for local/private deployments
+- **DeepSeek** — strong at code and structured reasoning
+- **Gemini 2.5 Pro/Flash** — best accuracy on complex multi-hop queries
+- **Gemini Embeddings** — best embedding quality overall
+
+### Agentic Pipeline
+The agentic mode uses LlamaIndex's agent framework:
+1. Query decomposition → sub-questions
+2. Tool calls to the retrieval system for each sub-question
+3. Synthesis pass to combine evidence into a final answer with citations
+
+## Microservice Architecture
+
+```
+┌──────────────┐    ┌───────────────┐    ┌──────────────┐
+│  FastAPI GW  │───▶│  Retrieval    │───▶│  ChromaDB    │
+│  (REST API)  │    │  Service      │    │  Vector DB   │
+└──────────────┘    └───────────────┘    └──────────────┘
+        │                   │
+        ▼                   ▼
+┌──────────────┐    ┌───────────────┐
+│  Generation  │    │  PostgreSQL   │
+│  Service     │    │  (metadata)   │
+└──────────────┘    └───────────────┘
+```
+
+Separating retrieval and generation services allows independent scaling — generation is GPU-bound; retrieval is IO-bound.
+
+## Results
+
+| Metric | Value |
+|--------|-------|
+| Documents supported | 1,000+ heterogeneous |
+| Retrieval precision improvement | +30% |
+| Response latency reduction | 35% (microservices) |
+| Peak retrieval requests handled | 10,000+ |
+
+## Tech Stack
+
+**Framework:** LlamaIndex 3.2 · FastAPI
+**LLMs:** Gemini 2.5 Pro/Flash · LLaMA 3.2 · DeepSeek
+**Vector DB:** ChromaDB · Gemini Embeddings
+**Storage:** PostgreSQL · Python
