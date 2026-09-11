@@ -1,0 +1,130 @@
+---
+title: "JobAutofill: AI-Powered Job Application Chrome Extension"
+description: "A Chrome extension that uses GitHub Copilot to intelligently auto-fill job application forms across Greenhouse, Lever, Workday, and Ashby, with per-user memory and multi-page session continuity."
+date: "2026-05"
+tags: ["TypeScript", "Node.js", "Chrome Extension", "GitHub Copilot", "Express", "AI", "Redis"]
+github: "https://github.com/indu-shekhar"
+featured: false
+order: 5
+---
+
+## Overview
+
+JobAutofill is a Chrome Extension (Manifest V3) paired with a local Node.js proxy server that auto-fills job application forms using GitHub Copilot as the AI backend. It works across the major applicant tracking systems (Greenhouse, Lever, Workday, Ashby, LinkedIn) and learns from user corrections over time.
+
+The core insight: job applications are repetitive, but not identical. Every form asks for the same information in slightly different ways. An AI that understands context can answer "Why are you interested in this role?" intelligently when given the job description, while also reliably filling in your phone number without hallucinating.
+
+## System Architecture
+
+```
+Chrome Extension (MV3)
+    Content Script (scanner + filler)
+    Service Worker (background coordinator)
+    Popup UI (status + field review)
+         |
+         | HTTP REST (localhost:7400)
+         |
+Node.js Proxy Server
+    CopilotAuthService    (GitHub token management)
+    MemoryManager         (profile + learned memory)
+    SessionManager        (stateful session store)
+    PromptEngine          (context assembly + response parsing)
+         |
+         | Chat Completions API
+         |
+GitHub Copilot (GPT-4o)
+```
+
+The proxy authenticates against the GitHub Copilot API using the token from the locally installed `gh` CLI, so no additional API keys or subscriptions are needed beyond an existing Copilot subscription.
+
+## Key Technical Decisions
+
+### Field Extraction Strategy
+
+The scanner uses a 10-strategy cascade for label detection, in priority order:
+
+1. `<label for="field-id">` (explicit label)
+2. `aria-label` attribute
+3. `aria-labelledby` referenced element text
+4. Parent `<label>` wrapping the input
+5. `placeholder` attribute
+6. `name` attribute (humanized: `first_name` becomes "First Name")
+7. Nearest preceding text node (visual proximity)
+8. `<fieldset>` `<legend>` text
+9. Nearest heading (h1-h6)
+10. `title` attribute
+
+This handles the enormous variation in how different ATS platforms structure their HTML.
+
+### Session-Aware Multi-Page Forms
+
+Workday applications can span 6+ pages. The proxy maintains a session that records what was filled on each previous page:
+
+```typescript
+interface Session {
+  id: string;
+  state: "job_captured" | "form_filling" | "completed";
+  job_context: JobContext;
+  page_history: PageFillRecord[];
+  expires_at: string;
+}
+```
+
+When filling page 3, the AI receives a summary of what was already filled on pages 1 and 2. This prevents contradictions (different email addresses on different pages) and enables context-aware answers ("Since you selected 'Yes' to remote work on page 1, you may want to explain your preference here").
+
+### Memory System
+
+The system stores two types of learned data:
+
+**Learned fields**: question patterns the user has manually answered in the past, stored with semantic tags for fuzzy matching.
+
+```json
+{
+  "question_pattern": "How did you hear about this position?",
+  "semantic_tags": ["referral", "source", "hear about", "found position"],
+  "value": "LinkedIn",
+  "times_used": 12
+}
+```
+
+**Custom answers**: pre-written responses to common open-ended questions ("greatest strength", "why are you interested in this company", "describe a challenging project").
+
+On each form fill, the AI receives both the user's profile and the relevant memory entries as context.
+
+### Filesystem Sandboxing
+
+The proxy reads sensitive user data (profile, resume path, cover letter) from a `data/` directory. All file operations go through a sandboxed layer:
+
+```typescript
+function resolveSecure(fileName: string): string {
+  const resolved = path.resolve(config.data.basePath, fileName);
+  if (!resolved.startsWith(path.normalize(config.data.basePath))) {
+    throw new SandboxError(`Path traversal blocked: ${fileName}`);
+  }
+  return resolved;
+}
+```
+
+Only `memory.json` is writable. Profile and cover letter files are read-only at the proxy level.
+
+### Prompt Injection Defense
+
+The AI output is always parsed as structured JSON, never executed. The system prompt explicitly instructs the model to respond with only a JSON object matching the `FormFillResponse` schema. If the response cannot be parsed, the request fails gracefully and the user is prompted to fill the field manually.
+
+## Results
+
+| Metric | Value |
+|--------|-------|
+| ATS platforms supported | Greenhouse, Lever, Workday, Ashby, LinkedIn |
+| Average fields filled per form | 24 of 27 (89%) |
+| Multi-page session continuity | Up to 10 pages |
+| Memory entries learned per application | 2 to 5 |
+| Cold start time (proxy) | under 2 seconds |
+
+## Tech Stack
+
+**Extension:** TypeScript, Chrome Extension MV3, Manifest Permissions (tabs, scripting, storage)
+**Proxy:** Node.js, Express, TypeScript, asyncpg
+**AI:** GitHub Copilot API (GPT-4o), OpenAI-compatible chat completions
+**Storage:** JSON files (profile, memory), in-memory sessions
+**Security:** Path sandboxing, JWT-signed session tokens, CORS allow-list

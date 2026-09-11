@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = 'Indu Shekhar Jha | Software Engineer & AI Developer',
-  description = 'Indu Shekhar Jha is a software engineer and AI developer at indushekhar.tech, specializing in Python, FastAPI, LLMs, and backend systems. Currently at Appscrip and IIITDM Kurnool.',
+  title = 'Indu Shekhar Jha | Python & AI Developer, FastAPI, LLMs, RAG',
+  description = 'Indu Shekhar Jha: Python and AI Developer building LLM systems, RAG pipelines, and high-performance backends. B.Tech CSE from IIITDM Kurnool. Software Engineer at Kotak Mahindra Bank.',
   image = '/assets/profile.jpg',
   type = 'website',
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
@@ -20,15 +20,17 @@ const personSchema = {
   '@type': 'Person',
   name: 'Indu Shekhar Jha',
   url: 'https://indushekhar.tech',
-  image: 'https://indushekhar.tech/assets/profile.jpg',
-  jobTitle: 'Software Engineer & AI Developer',
+  image: 'https://indushekhar.tech/about-image/my_image_new.jpg',
+  jobTitle: 'Software Engineer',
   worksFor: {
     '@type': 'Organization',
-    name: 'Appscrip',
+    name: 'Kotak Mahindra Bank',
+    url: 'https://www.kotak.com',
   },
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'IIITDM Kurnool',
+    url: 'https://iiitk.ac.in',
   },
   sameAs: [
     'https://github.com/indu-shekhar',
@@ -36,7 +38,11 @@ const personSchema = {
     'https://leetcode.com/indu9128840871',
     'https://twitter.com/Indushekharjh15',
   ],
-  knowsAbout: ['Python', 'FastAPI', 'Machine Learning', 'RAG', 'LLMs', 'C++', 'Backend Development'],
+  knowsAbout: [
+    'Python', 'FastAPI', 'Machine Learning', 'RAG', 'LLMs', 'C++',
+    'Backend Development', 'NLP', 'LlamaIndex', 'PostgreSQL', 'Redis',
+    'ClickHouse', 'ChromaDB', 'Agentic AI', 'Fintech',
+  ],
 };
 ---
 

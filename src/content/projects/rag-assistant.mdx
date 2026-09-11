@@ -16,7 +16,7 @@ A research and production project exploring the frontier of retrieval-augmented 
 
 ## Why RAG?
 
-Fine-tuning LLMs for every new document set is expensive and slow. RAG gives LLMs access to up-to-date, domain-specific knowledge at inference time — no retraining required. The challenge is doing retrieval *well*: ranking irrelevant chunks first destroys answer quality.
+Fine-tuning LLMs for every new document set is expensive and slow. RAG gives LLMs access to up-to-date, domain-specific knowledge at inference time without retraining. The challenge is doing retrieval *well*: ranking irrelevant chunks first destroys answer quality.
 
 ## Pipeline Design
 
@@ -32,10 +32,10 @@ Fine-tuning LLMs for every new document set is expensive and slow. RAG gives LLM
 
 ### LLM Layer
 Experimented with and benchmarked:
-- **LLaMA 3.2** — best for local/private deployments
-- **DeepSeek** — strong at code and structured reasoning
-- **Gemini 2.5 Pro/Flash** — best accuracy on complex multi-hop queries
-- **Gemini Embeddings** — best embedding quality overall
+- **LLaMA 3.2**: best for local/private deployments
+- **DeepSeek**: strong at code and structured reasoning
+- **Gemini 2.5 Pro/Flash**: best accuracy on complex multi-hop queries
+- **Gemini Embeddings**: best embedding quality overall
 
 ### Agentic Pipeline
 The agentic mode uses LlamaIndex's agent framework:
@@ -58,7 +58,7 @@ The agentic mode uses LlamaIndex's agent framework:
 └──────────────┘    └───────────────┘
 ```
 
-Separating retrieval and generation services allows independent scaling — generation is GPU-bound; retrieval is IO-bound.
+Separating retrieval and generation services allows independent scaling: generation is GPU-bound while retrieval is IO-bound.
 
 ## Results
 

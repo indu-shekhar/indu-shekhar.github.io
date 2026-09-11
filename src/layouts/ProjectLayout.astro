@@ -25,7 +25,7 @@ const articleSchema = {
 ---
 
 <Layout
-  title={`${title} — Indu Shekhar Jha`}
+  title={`${title} | Indu Shekhar Jha`}
   description={description}
   image={image}
   type="article"
@@ -94,7 +94,7 @@ const articleSchema = {
     <header class="mb-10">
       <div class="mb-4 flex items-center gap-3 text-sm text-slate-500">
         <time>{date}</time>
-        {endDate && <><span>—</span><span>{endDate}</span></>}
+        {endDate && <><span>to</span><span>{endDate}</span></>}
       </div>
 
       <h1 class="text-3xl font-bold tracking-tight text-slate-200 sm:text-4xl">{title}</h1>

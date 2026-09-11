@@ -1,6 +1,6 @@
 ---
 title: "What I Learned Building a Production RAG System"
-description: "Lessons from building a RAG pipeline that handles 10,000+ retrieval requests — covering chunking strategies, reranking, agentic pipelines, and the LLM benchmarks that actually matter."
+description: "Lessons from building a RAG pipeline that handles 10,000+ retrieval requests: chunking strategies, reranking, agentic pipelines, and the LLM benchmarks that actually matter."
 date: "2025-04-01"
 tags: ["RAG", "LlamaIndex", "Python", "LLMs", "FastAPI"]
 draft: false
@@ -13,7 +13,7 @@ This is what I actually learned building the [RAG-based Agentic Assistant](/proj
 ## The Naive Approach and Why It Fails
 
 ```python
-# Naive RAG — don't do this in production
+# Naive RAG: don't do this in production
 docs = load_documents("./docs")
 index = VectorStoreIndex.from_documents(docs)
 query_engine = index.as_query_engine()
@@ -22,10 +22,10 @@ response = query_engine.query("What is the refund policy?")
 
 This works for demos. It breaks in production because:
 
-1. **Fixed chunk size ignores document structure** — splitting a PDF at 512 tokens may cut a table in half
-2. **Dense-only retrieval misses exact matches** — searching for `"JWT"` with embeddings may miss documents that use `"JSON Web Token"`
-3. **Top-k with no reranking returns noisy results** — the 3rd most similar chunk may be irrelevant
-4. **No metadata filtering** — all documents are treated equally
+1. **Fixed chunk size ignores document structure**: splitting a PDF at 512 tokens may cut a table in half
+2. **Dense-only retrieval misses exact matches**: searching for `"JWT"` with embeddings may miss documents that use `"JSON Web Token"`
+3. **Top-k with no reranking returns noisy results**: the 3rd most similar chunk may be irrelevant
+4. **No metadata filtering**: all documents are treated equally
 
 ## Lesson 1: Chunking Strategy Matters More Than You Think
 
@@ -86,9 +86,9 @@ Total precision improvement: **+30%** over baseline dense-only retrieval.
 
 Not all queries are equal. I store three embeddings per chunk:
 
-- **Summary embedding** — created by asking an LLM to summarize the chunk, then embedding the summary. Best for broad "what is this document about?" queries.
-- **Q&A embedding** — generate synthetic Q&A pairs from the chunk, embed the questions. Best for factual lookups.
-- **Contextual embedding** — embed the chunk with its surrounding context. Best for precise passage retrieval.
+- **Summary embedding**: created by asking an LLM to summarize the chunk, then embedding the summary. Best for broad "what is this document about?" queries.
+- **Q&A embedding**: generate synthetic Q&A pairs from the chunk, embed the questions. Best for factual lookups.
+- **Contextual embedding**: embed the chunk with its surrounding context. Best for precise passage retrieval.
 
 At query time, route to the right embedding type based on query classification.
 
@@ -157,9 +157,9 @@ LLM Generation with citations
 
 ## What I'd Do Differently
 
-1. **Start with evaluation** — build your eval set (50+ Q&A pairs) before writing retrieval code. You can't optimize what you can't measure.
-2. **Cache aggressively** — common queries repeat. Redis cache on query embeddings cut our p50 latency from 800ms to 45ms.
-3. **Log every retrieval** — the query logs will show you exactly where the system fails. I found 30% of failures came from one badly-structured document type.
+1. **Start with evaluation**: build your eval set (50+ Q&A pairs) before writing retrieval code. You can't optimize what you can't measure.
+2. **Cache aggressively**: common queries repeat. Redis cache on query embeddings cut our p50 latency from 800ms to 45ms.
+3. **Log every retrieval**: the query logs will show you exactly where the system fails. I found 30% of failures came from one badly-structured document type.
 
 ---
 

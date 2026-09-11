@@ -1,0 +1,294 @@
+---
+title: "FastAPI in Production: Patterns I Wish I Knew Earlier"
+description: "Real patterns from building multi-tenant analytics APIs at scale: async database sessions, RBAC middleware, ClickHouse integration, Redis caching, and structured logging that actually works."
+date: "2026-06-15"
+tags: ["FastAPI", "Python", "PostgreSQL", "Redis", "ClickHouse", "Backend"]
+draft: false
+---
+
+After six months of building production FastAPI services at Appscrip, I accumulated a set of patterns that made an enormous difference in reliability, maintainability, and performance. These are the things I wish I had known when I started.
+
+## Why FastAPI, and Why It's Deceptively Easy to Misuse
+
+FastAPI is genuinely excellent. The automatic OpenAPI docs, Pydantic validation, and async support make it feel effortless. That ease is also where most teams go wrong: the framework is permissive enough that you can ship a prototype architecture into production without realizing it.
+
+## Pattern 1: Async Database Sessions Done Right
+
+The most common mistake I see in FastAPI codebases is mixing sync and async database calls.
+
+**What you should not do:**
+
+```python
+# Sync SQLAlchemy in async context - will block your event loop
+@app.get("/users/{user_id}")
+async def get_user(user_id: int, db: Session = Depends(get_db)):
+    return db.query(User).filter(User.id == user_id).first()
+```
+
+**What you should do:**
+
+```python
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_async_engine(
+    "postgresql+asyncpg://user:pass@host/db",
+    pool_size=20,
+    max_overflow=40,
+    pool_pre_ping=True,  # detect stale connections
+)
+
+AsyncSessionLocal = sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
+)
+
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
+
+@app.get("/users/{user_id}")
+async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(User).where(User.id == user_id))
+    return result.scalar_one_or_none()
+```
+
+The `pool_pre_ping=True` is critical: without it, you will get connection errors after a PostgreSQL idle timeout.
+
+## Pattern 2: Multi-Tenancy via Request Context
+
+At Appscrip, we had 50+ enterprise tenants sharing the same service. The naive approach is to pass `tenant_id` through every function call. The better approach uses Python's `contextvars`.
+
+```python
+from contextvars import ContextVar
+from fastapi import Request
+
+_tenant_ctx: ContextVar[str] = ContextVar("tenant_id", default="")
+
+def get_current_tenant() -> str:
+    return _tenant_ctx.get()
+
+class TenantMiddleware:
+    async def __call__(self, request: Request, call_next):
+        tenant_id = request.headers.get("X-Tenant-ID") or ""
+        if not tenant_id:
+            return JSONResponse({"error": "Tenant ID required"}, status_code=400)
+        
+        token = _tenant_ctx.set(tenant_id)
+        try:
+            response = await call_next(request)
+        finally:
+            _tenant_ctx.reset(token)
+        return response
+```
+
+Now any function in the call stack can call `get_current_tenant()` without threading it through every parameter.
+
+For database row isolation, add a `tenant_id` column and a row-level policy:
+
+```sql
+-- PostgreSQL row-level security
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY tenant_isolation ON analytics_events
+    USING (tenant_id = current_setting('app.tenant_id'));
+```
+
+Set `app.tenant_id` at the start of each database transaction and Postgres handles the rest.
+
+## Pattern 3: RBAC That Doesn't Get in the Way
+
+Role-based access control should be composable, not a maze of if-statements.
+
+```python
+from enum import Enum
+from functools import wraps
+from typing import Callable
+
+class Role(str, Enum):
+    ADMIN = "admin"
+    ANALYST = "analyst"
+    VIEWER = "viewer"
+
+ROLE_HIERARCHY = {
+    Role.ADMIN: {Role.ADMIN, Role.ANALYST, Role.VIEWER},
+    Role.ANALYST: {Role.ANALYST, Role.VIEWER},
+    Role.VIEWER: {Role.VIEWER},
+}
+
+def require_role(minimum_role: Role):
+    def decorator(func: Callable):
+        @wraps(func)
+        async def wrapper(*args, current_user: User = Depends(get_current_user), **kwargs):
+            user_role = Role(current_user.role)
+            if minimum_role not in ROLE_HIERARCHY.get(user_role, set()):
+                raise HTTPException(status_code=403, detail="Insufficient permissions")
+            return await func(*args, current_user=current_user, **kwargs)
+        return wrapper
+    return decorator
+
+# Usage
+@app.delete("/tenants/{tenant_id}")
+@require_role(Role.ADMIN)
+async def delete_tenant(tenant_id: str, current_user: User = Depends(get_current_user)):
+    ...
+```
+
+## Pattern 4: ClickHouse for Analytics Queries
+
+We used ClickHouse for the marketing analytics dashboard because PostgreSQL was not designed for columnar scans across millions of rows. The integration with FastAPI is straightforward:
+
+```python
+from clickhouse_driver import AsyncClient
+
+class ClickHouseService:
+    def __init__(self, host: str, port: int = 9000):
+        self.client = AsyncClient(host=host, port=port)
+    
+    async def get_traffic_summary(
+        self, 
+        tenant_id: str, 
+        start_date: str, 
+        end_date: str
+    ) -> list[dict]:
+        query = """
+            SELECT 
+                toDate(timestamp) AS date,
+                countIf(event_type = 'pageview') AS pageviews,
+                uniqIf(session_id, event_type = 'pageview') AS sessions,
+                avg(load_time_ms) AS avg_load_ms
+            FROM analytics_events
+            WHERE tenant_id = %(tenant_id)s
+              AND timestamp BETWEEN %(start)s AND %(end)s
+            GROUP BY date
+            ORDER BY date
+        """
+        result = await self.client.execute(
+            query,
+            {"tenant_id": tenant_id, "start": start_date, "end": end_date},
+            with_column_types=True,
+        )
+        rows, columns = result
+        col_names = [col[0] for col in columns]
+        return [dict(zip(col_names, row)) for row in rows]
+```
+
+ClickHouse's `uniqIf` and `countIf` aggregate functions let you compute multiple metrics in a single pass over the data, which matters when scanning hundreds of millions of rows.
+
+## Pattern 5: Redis Caching Without the Stampede Problem
+
+Naive caching has a well-known failure mode: when a cache entry expires under high traffic, hundreds of requests hit the database simultaneously (the "thundering herd"). Here's a pattern that prevents it:
+
+```python
+import asyncio
+import json
+from redis.asyncio import Redis
+
+class CacheService:
+    def __init__(self, redis: Redis):
+        self.redis = redis
+        self._locks: dict[str, asyncio.Lock] = {}
+    
+    async def get_or_compute(
+        self,
+        key: str,
+        compute_fn,
+        ttl_seconds: int = 300,
+    ):
+        cached = await self.redis.get(key)
+        if cached:
+            return json.loads(cached)
+        
+        # Only one coroutine computes at a time per key
+        if key not in self._locks:
+            self._locks[key] = asyncio.Lock()
+        
+        async with self._locks[key]:
+            # Double-check after acquiring lock
+            cached = await self.redis.get(key)
+            if cached:
+                return json.loads(cached)
+            
+            result = await compute_fn()
+            await self.redis.setex(key, ttl_seconds, json.dumps(result))
+            return result
+```
+
+For our dashboard queries, this reduced database load by 70% at peak traffic.
+
+## Pattern 6: Structured Logging with Request IDs
+
+Debugging production issues without structured logs is guesswork. Add a request ID to every log line:
+
+```python
+import uuid
+import structlog
+from fastapi import Request
+
+logger = structlog.get_logger()
+
+class RequestContextMiddleware:
+    async def __call__(self, request: Request, call_next):
+        request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+        
+        with structlog.contextvars.bound_contextvars(
+            request_id=request_id,
+            path=request.url.path,
+            method=request.method,
+            tenant_id=request.headers.get("X-Tenant-ID", "unknown"),
+        ):
+            response = await call_next(request)
+            response.headers["X-Request-ID"] = request_id
+            return response
+```
+
+Now every log line in that request's lifetime includes the request ID, tenant, and path. Searching for a specific request ID in your log aggregator shows the complete trace.
+
+## Pattern 7: Background Tasks with Redis + Celery
+
+For operations that are too slow for a request-response cycle (report generation, bulk data imports, scheduled fetches), use Celery:
+
+```python
+from celery import Celery
+from celery.schedules import crontab
+
+celery_app = Celery(
+    "tasks",
+    broker="redis://localhost:6379/0",
+    backend="redis://localhost:6379/1",
+)
+
+celery_app.conf.beat_schedule = {
+    "sync-competitor-keywords": {
+        "task": "tasks.sync_competitor_data",
+        "schedule": crontab(hour=2, minute=0),  # 2 AM daily
+    },
+}
+
+@celery_app.task(bind=True, max_retries=3, default_retry_delay=60)
+def sync_competitor_data(self, tenant_id: str):
+    try:
+        # ... fetch and store data
+        pass
+    except ExternalAPIError as exc:
+        raise self.retry(exc=exc)
+```
+
+FastAPI and Celery run as separate processes but share the same Redis. The FastAPI endpoint enqueues the task and returns immediately; the Celery worker picks it up asynchronously.
+
+## What Matters Most
+
+Looking back, the highest-leverage patterns were:
+
+1. **Async throughout**: mixing sync and async is the fastest path to a blocked event loop
+2. **Request ID on every log line**: saved hours of debugging time
+3. **Double-checked locking for cache**: prevented several production incidents under traffic spikes
+4. **Row-level security in Postgres**: tenant isolation at the database layer is more reliable than application-layer filtering
+
+The framework does not enforce any of these. You have to build them in deliberately.
+
+Questions or corrections? Reach me at [indu9128840871@gmail.com](mailto:indu9128840871@gmail.com) or [LinkedIn](https://linkedin.com/in/indushekhar-jha).
